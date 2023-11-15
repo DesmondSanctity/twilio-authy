@@ -51,7 +51,7 @@ function App({ Component, pageProps }) {
     return (
         <>
             <Head>
-                <title>Next.js 13 - User Registration and Login Example</title>
+                <title>Next.js Authentication with Twilio Authy</title>
             </Head>
 
             <div className={`app-container ${user ? 'bg-light' : ''}`}>
