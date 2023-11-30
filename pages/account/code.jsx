@@ -25,8 +25,13 @@ function Code() {
     alertService.clear();
     if (!userService.user.authenticate) {
       return userService
-        .verifyNewFactor(userService.user.id, userService.user.factorSid, code)
-        .then(() => {
+        .verifyNewFactor(
+          userService.user.source.value.id,
+          userService.user.source.value.factorSid,
+          code
+        )
+        .then((data) => {
+          console.log(data);
           alertService.success("Login Successful", true);
           router.push("/");
         })

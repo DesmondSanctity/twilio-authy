@@ -9,16 +9,17 @@ export default Login;
 
 function Login() {
   const router = useRouter();
-  const [url, setURL] = useState("https://placehold.co/256");
+  const [url, setURL] = useState("");
   const [regen, setRegen] = useState(false);
 
-  const name = userService.user.firstName;
-  const identity = userService.user.id;
+  const name = userService.user.source.value.firstName;
+  const identity = userService.user.source.value.id
 
-  console.log(userService.user);
+  // console.log(userService.user);
+  // console.log(url);
 
   useEffect(() => {
-    if (!userService.user.authenticate && regen) {
+    if (!userService.user.authenticate && !url && regen) {
       handleCreateFactor();
     }
   }, [regen]);
@@ -28,9 +29,10 @@ function Login() {
     return userService
       .createFactor(name, identity)
       .then((data) => {
-        setURL(data.uri);
+        console.log("data", data);
+        setURL(data.binding.uri);
         alertService.success("QR Code Generated", true);
-        router.push("/");
+        // router.push("/");
       })
       .catch(alertService.error)
       .finally(() => {
@@ -53,22 +55,25 @@ function Login() {
       <div className="card">
         <h4 className="card-header">Scan or Register Key</h4>
         <div className="card-body">
-          <div
-            style={{
-              height: "auto",
-              margin: "0 auto",
-              maxWidth: 200,
-              width: "100%",
-            }}
-          >
-            <QRCode
-              size={256}
-              style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-              value={url}
-              viewBox={`0 0 256 256`}
-            />
-          </div>
-
+          {url ? (
+            <div
+              style={{
+                height: "auto",
+                margin: "0 auto",
+                maxWidth: 200,
+                width: "100%",
+              }}
+            >
+              <QRCode
+                size={256}
+                style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                value={url}
+                viewBox={`0 0 256 256`}
+              />
+            </div>
+          ) : (
+            <p>The get the QR Code, click the regenerate button.</p>
+          )}
           <div
             style={{
               margin: "30px",

@@ -38,6 +38,7 @@ async function createFactor(name, identity) {
     name,
     identity,
   });
+  // console.log("responseeeee", response);
   return response;
 }
 

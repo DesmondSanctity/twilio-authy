@@ -5,10 +5,7 @@ import twilio from "twilio";
 
 const User = db.User;
 
-const client = twilio(
-  process.env.accountSid,
-  process.env.authToken
-);
+const client = twilio(process.env.accountSid, process.env.authToken);
 
 export const usersRepo = {
   authenticate,
@@ -95,7 +92,7 @@ async function _delete(id) {
 async function createFactor({ name, identity }) {
   const user = await User.findById(identity);
 
-  await client.verify.v2
+  return await client.verify.v2
     .services("VA94aaa68087576330fe194b83d5ffc29e")
     .entities(identity)
     .newFactors.create({
@@ -110,16 +107,29 @@ async function createFactor({ name, identity }) {
         factorSid: new_factor.sid,
       });
       await user.save();
+
+      return new_factor;
     });
 }
 
 async function verifyNewFactor({ identity, factorSid, code }) {
-  await client.verify.v2
+  const user = await User.findById(identity);
+
+  return await client.verify.v2
     .services("VA94aaa68087576330fe194b83d5ffc29e")
     .entities(identity)
     .factors(factorSid)
     .update({ authPayload: code })
-    .then((factor) => console.log(factor.status));
+    .then(async (factor) => {
+      console.log(factor);
+      // copy params properties to user
+      Object.assign(user, {
+        authenticate: true,
+      });
+      await user.save();
+
+      return factor;
+    });
 }
 
 async function createChallenge({ identity, factorSid, code }) {
