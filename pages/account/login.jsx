@@ -23,6 +23,8 @@ function Login() {
   const { register, handleSubmit, formState } = useForm(formOptions);
   const { errors } = formState;
 
+  console.log("login", userService.userValue);
+
   function onSubmit({ username, password }) {
     alertService.clear();
     return userService
@@ -31,7 +33,7 @@ function Login() {
         // // get return url from query parameters or default to '/'
         // const returnUrl = router.query.returnUrl || 'code';
         // router.push(returnUrl);
-        if (userService.user.authenticate) {
+        if (userService.userValue.user.authenticated) {
           router.push("code");
         } else {
           router.push("scan");

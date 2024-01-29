@@ -7,19 +7,16 @@ import { alertService } from "./alert.service";
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}`;
+const storedData =
+  typeof window !== "undefined" && JSON.parse(localStorage.getItem("appData"));
 const userSubject = new BehaviorSubject(
-  typeof window !== "undefined" &&
-    JSON.parse(localStorage.getItem("appData"))?.user
+  storedData || { auth: false, user: null }
 );
 
 export const userService = {
   user: userSubject.asObservable(),
   get userValue() {
     return userSubject.value;
-  },
-  get Authy() {
-    const appData = JSON.parse(localStorage.getItem("appData"));
-    return appData.auth;
   },
   login,
   logout,
@@ -42,12 +39,21 @@ async function createFactor(name, identity) {
   return response;
 }
 
-async function verifyNewFactor(identity, factorSid, code) {
+async function verifyNewFactor(identity, code) {
   const response = await fetchWrapper.post(`${baseUrl}/code/verify`, {
     identity,
-    factorSid,
     code,
   });
+
+  const appData = JSON.parse(localStorage.getItem("appData"));
+  // Set auth to true
+  appData.auth = true;
+  // Save updated appData
+  localStorage.setItem("appData", JSON.stringify(appData));
+
+  // publish updated appData to subscribers
+  userSubject.next(appData);
+
   return response;
 }
 
@@ -57,6 +63,16 @@ async function createChallenge(identity, factorSid, code) {
     factorSid,
     code,
   });
+
+  const appData = JSON.parse(localStorage.getItem("appData"));
+  // Set auth to true
+  appData.auth = true;
+  // Save updated appData
+  localStorage.setItem("appData", JSON.stringify(appData));
+
+  // publish updated appData to subscribers
+  userSubject.next(appData);
+
   return response;
 }
 
@@ -67,11 +83,11 @@ async function login(username, password) {
   });
 
   // publish user to subscribers and store in local storage to stay logged in between page refreshes
-  userSubject.next(user);
   const data = {
     user: user,
     auth: false,
   };
+  userSubject.next(data);
   localStorage.setItem("appData", JSON.stringify(data));
 }
 
@@ -86,7 +102,7 @@ function logout() {
   // Save updated appData
   localStorage.setItem("appData", JSON.stringify(appData));
 
-  userSubject.next(null);
+  userSubject.next(appData);
   Router.push("/account/login");
 }
 

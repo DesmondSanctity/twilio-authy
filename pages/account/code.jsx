@@ -21,31 +21,36 @@ function Code() {
   const { register, handleSubmit, formState } = useForm(formOptions);
   const { errors } = formState;
 
+  console.log("code", userService.userValue);
+
   function onSubmit({ code }) {
     alertService.clear();
-    if (!userService.user.authenticate) {
+    if (!userService.userValue.user.authenticated) {
       return userService
         .verifyNewFactor(
-          userService.user.source.value.id,
-          userService.user.source.value.factorSid,
+          userService.userValue.user.id,
           code
         )
         .then((data) => {
           console.log(data);
-          alertService.success("Login Successful", true);
-          router.push("/");
-        })
-        .catch(alertService.error);
-    } else {
-      return userService
-        .createChallenge(userService.user.id, userService.user.factorSid, code)
-        .then(() => {
           userService
-            .update(userService.user.id, { authenticate: true })
+            .update(userService.userValue.user.id, { authenticated: true })
             .then(() => {
               alertService.success("Login Successful", true);
               router.push("/");
             });
+        })
+        .catch(alertService.error);
+    } else {
+      return userService
+        .createChallenge(
+          userService.userValue.user.id,
+          userService.userValue.user.factorSid,
+          code
+        )
+        .then(() => {
+          alertService.success("Login Successful", true);
+          router.push("/");
         })
         .catch(alertService.error);
     }

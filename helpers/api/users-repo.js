@@ -112,19 +112,19 @@ async function createFactor({ name, identity }) {
     });
 }
 
-async function verifyNewFactor({ identity, factorSid, code }) {
+async function verifyNewFactor({ identity, code }) {
   const user = await User.findById(identity);
-
+  console.log(user);
   return await client.verify.v2
     .services("VA94aaa68087576330fe194b83d5ffc29e")
     .entities(identity)
-    .factors(factorSid)
+    .factors(user?.factorSid)
     .update({ authPayload: code })
     .then(async (factor) => {
       console.log(factor);
       // copy params properties to user
       Object.assign(user, {
-        authenticate: true,
+        authenticated: true,
       });
       await user.save();
 
@@ -133,12 +133,16 @@ async function verifyNewFactor({ identity, factorSid, code }) {
 }
 
 async function createChallenge({ identity, factorSid, code }) {
-  await client.verify.v2
+  return await client.verify.v2
     .services("VA94aaa68087576330fe194b83d5ffc29e")
     .entities(identity)
     .challenges.create({
       authPayload: code,
       factorSid: factorSid,
     })
-    .then((challenge) => console.log(challenge.status));
+    .then((challenge) => {
+      console.log(challenge.status);
+
+      return challenge;
+    });
 }
