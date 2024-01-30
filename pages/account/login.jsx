@@ -30,9 +30,6 @@ function Login() {
     return userService
       .login(username, password)
       .then(() => {
-        // // get return url from query parameters or default to '/'
-        // const returnUrl = router.query.returnUrl || 'code';
-        // router.push(returnUrl);
         if (userService.userValue.user.authenticated) {
           router.push("code");
         } else {

@@ -55,7 +55,7 @@ function App({ Component, pageProps }) {
       </Head>
 
       <div className={`app-container ${user ? "bg-light" : ""}`}>
-        {router.asPath == "/" && <Nav />}
+        {authorized && <Nav />}
         <Alert />
         {authorized && <Component {...pageProps} />}
       </div>
