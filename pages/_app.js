@@ -34,10 +34,10 @@ function App({ Component, pageProps }) {
 
     function authCheck(url) {
         // redirect to login page if accessing a private page and not logged in 
-        setUser(userService.userValue);
+        setUser(userService.userValue?.user);
         const publicPaths = ['/account/login', '/account/register'];
         const path = url.split('?')[0];
-        if (!userService.userValue && !publicPaths.includes(path)) {
+        if (!userService.userValue?.user && !publicPaths.includes(path)) {
             setAuthorized(false);
             router.push({
                 pathname: '/account/login',
@@ -51,11 +51,11 @@ function App({ Component, pageProps }) {
     return (
         <>
             <Head>
-                <title>Next.js 13 - User Registration and Login Example</title>
+                <title>Next.js Authentication with Twilio Authy</title>
             </Head>
 
             <div className={`app-container ${user ? 'bg-light' : ''}`}>
-                <Nav />
+                {authorized && <Nav /> }
                 <Alert />
                 {authorized &&
                     <Component {...pageProps} />
