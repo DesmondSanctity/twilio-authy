@@ -9,7 +9,7 @@ function Home() {
         <div className="p-4">
             <div className="container">
                 <h1>Hi {userService.userValue?.user?.firstName}!</h1>
-                <p>You&apos;re logged in with Next.js & JWT!!</p>
+                <p>You&apos;re logged in with Next.js & Twilio Authy</p>
                 <p><Link href="/users">Manage Users</Link></p>
             </div>
         </div>
