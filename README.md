@@ -1,4 +1,5 @@
 # twilio-authy
+
 A Next.js application that uses Twilio Authy for 2FA
 
 - To run the application, clone this repository in a directory of your choice using the command below:
@@ -15,6 +16,7 @@ A Next.js application that uses Twilio Authy for 2FA
   JWT_SECRET=<JWT Secret Keys>
   accountSid=<Twilio Account SID>
   authToken=<Twilio Auth Token>
+  serviceSid=<Authy Service SID>
   ```
 - Finally run the dev command to start the application using this command
   ```bash
