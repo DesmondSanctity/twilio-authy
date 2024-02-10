@@ -55,7 +55,7 @@ function AddEdit(props) {
             alertService.success(message, true);
         } catch (error) {
             alertService.error(error);
-            console.error(error);
+            // console.error(error);
         }
     }
 

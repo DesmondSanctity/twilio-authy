@@ -7,7 +7,7 @@ export { Layout };
 
 function Layout({ children }) {
     const router = useRouter();
-    console.log("layout", userService.userValue?.auth);
+    // console.log("layout", userService.userValue?.auth);
     useEffect(() => {
         // redirect to home if already logged in
         if (userService.userValue?.auth) {

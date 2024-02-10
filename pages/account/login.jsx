@@ -23,8 +23,6 @@ function Login() {
   const { register, handleSubmit, formState } = useForm(formOptions);
   const { errors } = formState;
 
-  console.log("login", userService.userValue);
-
   function onSubmit({ username, password }) {
     alertService.clear();
     return userService

@@ -14,6 +14,6 @@ function errorHandler(err, res) {
     }
 
     // default to 500 server error
-    console.error(err);
+    // console.error(err);
     return res.status(500).json({ message: err.message });
 }

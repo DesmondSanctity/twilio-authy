@@ -6,6 +6,6 @@ export default apiHandler({
 
 async function createFactor(req, res) {
   const response = await usersRepo.createFactor(req.body);
-  console.log("yipeeeeee", response);
+  // console.log("yipeeeeee", response);
   return res.status(200).json(response);
 }

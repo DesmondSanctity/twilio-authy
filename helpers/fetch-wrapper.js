@@ -28,7 +28,7 @@ function request(method) {
 // helper functions
 
 function authHeader(url) {
-    console.log("service", userService);
+    // console.log("service", userService);
     // return auth header with jwt if user is logged in and request is to the api url
     const user = userService.userValue.user;
     const isLoggedIn = user?.token;

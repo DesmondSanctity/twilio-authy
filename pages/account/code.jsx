@@ -21,7 +21,7 @@ function Code() {
  const { register, handleSubmit, formState } = useForm(formOptions);
  const { errors } = formState;
 
- console.log('code', userService.userValue);
+//  console.log('code', userService.userValue);
 
  function onSubmit({ code }) {
   alertService.clear();
@@ -29,7 +29,7 @@ function Code() {
    return userService
     .verifyNewFactor(userService.userValue.user.id, code)
     .then((data) => {
-     console.log(data);
+    //  console.log(data);
      userService
       .update(userService.userValue.user.id, { authenticated: true })
       .then((data) => {

@@ -101,7 +101,7 @@ async function createFactor({ name, identity }) {
    factorType: 'totp',
   })
   .then(async (new_factor) => {
-   console.log(new_factor);
+  //  console.log(new_factor);
    // copy params properties to user
    Object.assign(user, {
     keys: new_factor.binding,
@@ -115,14 +115,14 @@ async function createFactor({ name, identity }) {
 
 async function verifyNewFactor({ identity, code }) {
  const user = await User.findById(identity);
- console.log(user);
+//  console.log(user);
  return await client.verify.v2
   .services(serviceSid)
   .entities(identity)
   .factors(user?.factorSid)
   .update({ authPayload: code })
   .then(async (factor) => {
-   console.log(factor.status);
+  //  console.log(factor.status);
    if (factor.status === 'verified') {
     // copy params properties to user
     Object.assign(user, {
@@ -143,7 +143,7 @@ async function createChallenge({ identity, factorSid, code }) {
    factorSid: factorSid,
   })
   .then((challenge) => {
-   console.log(challenge.status);
+  //  console.log(challenge.status);
 
    return challenge;
   });

@@ -7,7 +7,7 @@ export { Nav };
 function Nav() {
     const [user, setUser] = useState(null);
 
-    console.log("userNav", user);
+    // console.log("userNav", user);
 
     useEffect(() => {
         const subscription = userService.user.subscribe(x => setUser(x));

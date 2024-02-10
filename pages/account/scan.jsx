@@ -15,7 +15,7 @@ function Login() {
   const name = userService.userValue.user.firstName;
   const identity = userService.userValue.user.id
 
-  console.log(userService.userValue);
+  // console.log(userService.userValue);
   // console.log(url);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ function Login() {
     return userService
       .createFactor(name, identity)
       .then((data) => {
-        console.log("data", data);
+        // console.log("data", data);
         setURL(data.binding.uri);
         alertService.success("QR Code Generated", true);
         // router.push("/");
