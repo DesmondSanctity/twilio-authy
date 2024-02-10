@@ -24,4 +24,22 @@ A Next.js application that uses Twilio Authy for 2FA
   npm run dev
   ```
 
-  Credits for this boilerplate go to [Jason Watmore](https://github.com/cornflourblue/next-js-13-mongodb-registration-login-example)
+- For deploying to production, after the deployment, update the next.config file with your production URL. If not, you might have issues running the app on production environment.
+
+  ```js
+  /** @type {import('next').NextConfig} */
+  const nextConfig = {
+   reactStrictMode: true,
+   serverRuntimeConfig: {},
+   publicRuntimeConfig: {
+    apiUrl:
+     process.env.NODE_ENV === 'development'
+      ? 'http://localhost:3000/api' // development api
+      : '<your-production-url>/api', // production api
+   },
+  };
+
+  module.exports = nextConfig;
+  ```
+
+Credits for this boilerplate go to [Jason Watmore](https://github.com/cornflourblue/next-js-13-mongodb-registration-login-example)
