@@ -19,6 +19,9 @@ A Next.js application that uses Twilio Authy for 2FA
   serviceSid=<Authy Service SID>
   ```
 - Finally run the dev command to start the application using this command
+
   ```bash
   npm run dev
   ```
+
+  Credits for this boilerplate go to [Jason Watmore](https://github.com/cornflourblue/next-js-13-mongodb-registration-login-example)
